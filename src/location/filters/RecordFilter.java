@@ -9,12 +9,12 @@ public abstract class RecordFilter {
 
     protected RecordFilter nextFilter = null;
 
-    public boolean accept(LocationRecord record) {
+    public final boolean accept(LocationRecord record) {
         if (nextFilter == null) {
             return test(record);
         }
         else {
-            return nextFilter.test(record) && test(record);
+            return test(record) && nextFilter.accept(record);
         }
     }
 

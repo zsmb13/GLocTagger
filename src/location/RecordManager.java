@@ -57,6 +57,8 @@ public class RecordManager {
                 }
             }
 
+            System.out.println("Number of records after filtering: " + records.size());
+
         } catch (IOException e) {
             e.printStackTrace();
         }

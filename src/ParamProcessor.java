@@ -7,6 +7,8 @@ import photos.PhotoManager;
 
 import java.io.File;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 /**
  * Created by zsmb on 2016-07-18.
@@ -21,6 +23,10 @@ public class ParamProcessor {
     private static boolean initialized = false;
 
     private static RecordFilter filter = null;
+
+    private static TimeZone timeZone;
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static boolean check(String[] args) {
         // TODO add switches for all these options
@@ -75,6 +81,13 @@ public class ParamProcessor {
         }
         parse(optArgs);
 
+
+        // SET UP TIMEZONE
+        String timeZoneString = "GMT" + (hourOffset < 0 ? "" : "+") + hourOffset;
+        System.out.println(timeZoneString);
+        timeZone = TimeZone.getTimeZone(timeZoneString);
+        dateFormat.setTimeZone(timeZone);
+
         return true;
     }
 
@@ -82,7 +95,7 @@ public class ParamProcessor {
         int i = 0;
         while(i < optArgs.length) {
             switch(optArgs[i]) {
-                case "-after":
+                case "-from":
                     parseTimeFilter(optArgs[i+1], false);
                     i += 1;
                     break;
@@ -114,7 +127,7 @@ public class ParamProcessor {
     private static void parseTimeFilter(String arg, boolean acceptBefore) {
         long timeMS;
         try {
-            timeMS = PhotoManager.dateFormat.parse(arg).getTime();
+            timeMS = dateFormat.parse(arg).getTime();
         } catch (ParseException e) {
             // TODO error handling
             e.printStackTrace();
@@ -179,6 +192,6 @@ public class ParamProcessor {
             System.err.println("CANT GET PHOTO MANAGER YET");
             //TODO error handling
         }
-        return new PhotoManager(photoInDirectory, photoOutDirectory, hourOffset);
+        return new PhotoManager(photoInDirectory, photoOutDirectory, timeZone);
     }
 }

@@ -26,12 +26,12 @@ import java.util.TimeZone;
 public class PhotoManager {
 
     private static final String[] imageFormats = {"jpg", "jpeg"};
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+    static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
     private List<Photo> photos;
     private int currentIndex = -1;
 
-    public PhotoManager(File photoDir, File outputDirectory, int hourOffset) {
+    public PhotoManager(File photoDir, File outputDirectory, TimeZone timeZone) {
         // TODO calculate offset by getting currentTimeMS and something else (?)
 
         File[] files = photoDir.listFiles(new FileFilter() {
@@ -60,9 +60,7 @@ public class PhotoManager {
             photos.add(new Photo(files[i], outputDirectory));
         }
 
-        String timeZoneString = "GMT" + (hourOffset < 0 ? "" : "+") + hourOffset;
-        System.out.println(timeZoneString);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(timeZoneString));
+        dateFormat.setTimeZone(timeZone);
     }
 
     private String getExtension(File file) {
