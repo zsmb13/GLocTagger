@@ -1,8 +1,11 @@
 import location.LocationFinder;
 import location.RecordManager;
 import location.SimpleFinder;
-import location.filters.AccuracyFilter;
-import location.filters.LocationFilter;
+import photos.PhotoManager;
+import photos.PhotoWorker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zsmb on 2016-07-17.
@@ -21,12 +24,22 @@ public class Main {
         PhotoManager pm = ParamProcessor.getPhotomanager();
         LocationFinder lf = new SimpleFinder(rm);
 
-        while (pm.next()) {
-            //System.out.println("---");
-            long timeMS = pm.getCurrentTimestampMS();
-            double[] latlong = lf.getLocation(timeMS);
-            //System.out.println("Writing " + latlong[0] + "," + latlong[1]);
-            pm.writeCurrentExifData(latlong[0], latlong[1]);
+        //int threadCount = Runtime.getRuntime().availableProcessors() - 1;
+        int threadCount = 1;
+
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < threadCount; i++) {
+            threads.add(new Thread(new PhotoWorker(pm, lf)));
+        }
+
+        threads.forEach(Thread::start);
+
+        try {
+            for (Thread t : threads) {
+                t.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         lf.printStats();

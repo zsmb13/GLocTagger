@@ -2,9 +2,11 @@ import location.RecordManager;
 import location.filters.AccuracyFilter;
 import location.filters.LocationFilter;
 import location.filters.RecordFilter;
+import location.filters.TimeFilter;
+import photos.PhotoManager;
 
 import java.io.File;
-import java.util.List;
+import java.text.ParseException;
 
 /**
  * Created by zsmb on 2016-07-18.
@@ -80,6 +82,14 @@ public class ParamProcessor {
         int i = 0;
         while(i < optArgs.length) {
             switch(optArgs[i]) {
+                case "-after":
+                    parseTimeFilter(optArgs[i+1], false);
+                    i += 1;
+                    break;
+                case "-before":
+                    parseTimeFilter(optArgs[i+1], true);
+                    i += 1;
+                    break;
                 case "-accuracy":
                     parseAccuracyFilter(optArgs[i+1]);
                     i += 1;
@@ -99,6 +109,19 @@ public class ParamProcessor {
 
             i++;
         }
+    }
+
+    private static void parseTimeFilter(String arg, boolean acceptBefore) {
+        long timeMS;
+        try {
+            timeMS = PhotoManager.dateFormat.parse(arg).getTime();
+        } catch (ParseException e) {
+            // TODO error handling
+            e.printStackTrace();
+            return;
+        }
+
+        addFilter(new TimeFilter(timeMS, acceptBefore));
     }
 
     private static void parseLocationFilter(String arg1, String arg2, String arg3, boolean acceptInside) {

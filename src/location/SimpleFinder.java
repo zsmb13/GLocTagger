@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SimpleFinder implements LocationFinder {
 
-    List<Long> diffs = new ArrayList<>();
+    private List<Long> diffs = new ArrayList<>();
     private RecordManager rm;
 
     public SimpleFinder(RecordManager rm) {

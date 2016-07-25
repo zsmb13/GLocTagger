@@ -13,6 +13,5 @@ public interface LocationFinder {
      */
     public double[] getLocation(long timeMS);
 
-
     void printStats();
 }
