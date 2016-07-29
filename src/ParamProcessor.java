@@ -99,7 +99,7 @@ public class ParamProcessor {
                     parseTimeFilter(optArgs[i+1], false);
                     i += 1;
                     break;
-                case "-before":
+                case "-until":
                     parseTimeFilter(optArgs[i+1], true);
                     i += 1;
                     break;
@@ -124,7 +124,9 @@ public class ParamProcessor {
         }
     }
 
-    private static void parseTimeFilter(String arg, boolean acceptBefore) {
+    private static final long dayMS = 86400000;
+
+    private static void parseTimeFilter(String arg, boolean acceptUntil) {
         long timeMS;
         try {
             timeMS = dateFormat.parse(arg).getTime();
@@ -134,7 +136,13 @@ public class ParamProcessor {
             return;
         }
 
-        addFilter(new TimeFilter(timeMS, acceptBefore));
+        // Make "until" type filter inclusive, accepting until the end of
+        // the given day instead of until the beginning
+        if(acceptUntil) {
+            timeMS += dayMS;
+        }
+
+        addFilter(new TimeFilter(timeMS, acceptUntil));
     }
 
     private static void parseLocationFilter(String arg1, String arg2, String arg3, boolean acceptInside) {

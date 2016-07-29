@@ -1,4 +1,4 @@
-package location;
+package location.databinding;
 
 import java.util.List;
 

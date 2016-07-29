@@ -2,6 +2,8 @@ package location;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import location.databinding.PlainRecordObject;
+import location.databinding.PlainRoot;
 import location.filters.RecordFilter;
 
 import java.io.File;

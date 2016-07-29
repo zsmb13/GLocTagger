@@ -1,5 +1,7 @@
 package location;
 
+import location.databinding.PlainRecordObject;
+
 /**
  * Created by zsmb on 2016-07-18.
  */

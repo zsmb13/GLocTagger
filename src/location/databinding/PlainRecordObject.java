@@ -1,4 +1,4 @@
-package location;
+package location.databinding;
 
 /**
  * Created by zsmb on 2016-07-23.
