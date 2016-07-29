@@ -24,5 +24,5 @@ public abstract class LocationFinder {
     /**
      * Prints statistics about the matches found on the standard output
      */
-    abstract void printStats();
+    public abstract void printStats();
 }

@@ -16,21 +16,24 @@ import java.util.TimeZone;
 public class ParamProcessor {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     private static final long dayMS = 86400000;
+
     private static File locationData;
     private static File photoInDirectory;
     private static File photoOutDirectory;
+
     private static int hourOffset;
+
     private static boolean initialized = false;
+
     private static RecordFilter filter = null;
+
     private static TimeZone timeZone;
 
     public static boolean check(String[] args) {
-        // TODO add switches for all these options
-        // TODO add UTC offset option
-
         if (args.length < 4) {
-            System.err.println("Invalid arguments.");
+            System.err.println("Invalid arguments: at least one of the required arguments is missing.");
             return false;
         }
 
