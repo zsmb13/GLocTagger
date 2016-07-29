@@ -1,3 +1,54 @@
-You are reading the contents of this file because
-the arguments you passed to the program could not
-be parsed for one reason or another
+Usage:
+java -jar GLocTagger.jar <location data json> <input directory> <output directory> <time offset from utc> [optional args]
+
+See available optional arguments below.
+
+---
+
+>> Accuracy filter
+
+Defines a maximum amount of uncertainty for location records to allow.
+-accuracy <max value in meters>
+Example, only use records that are accurate within 40 meters:
+-accuracy 40
+
+---
+
+>> Location filters
+
+> Restrict filter
+
+Restricts the used records to those that are within a given radius of a given pair of coordinates.
+-restrict <latitude> <longitude> <radius in kilometers>
+
+Example, only use records within 2 kilometers of The White House:
+-restrict 38.897440 -77.036584 2
+
+Note that you can not use multiple restrict filters together to mark multiple circles on a map that are allowed. Sorry.
+
+> Exclude filter
+
+Ignores location records within a given radius of a given pair of coordinates.
+-exclude <latitude> <longitude> <radius in kilometers>
+
+Example, ignore location records within 10 kilometers of The White House:
+-exclude 38.897440 -77.036584 10
+
+---
+
+>> Time filters
+
+Both filters use ISO-8601, the YYYY-MM-DD format.
+
+> From filter
+Defines a start date for the records to consider (inclusive).
+-from <start date>
+
+> Until filter
+Defines an end date for the records to consider (inclusive).
+-until <end date>
+
+Combined example, only look for records that happened between Christmas and New Year's (again, inclusive of the bounds):
+-from 2015-12-24 -until 2015-12-31
+
+---
