@@ -23,15 +23,11 @@ public class ParamProcessor {
     private static File photoInDirectory;
     private static File photoOutDirectory;
 
-    private static int hourOffset;
-
-    private static boolean initialized = false;
-
     private static RecordFilter filter = null;
 
     private static TimeZone timeZone;
 
-    public static boolean check(String[] args) {
+    static boolean check(String[] args) {
         if (args.length < 4) {
             System.err.println("Invalid arguments: at least one of the required arguments is missing.");
             return false;
@@ -63,23 +59,22 @@ public class ParamProcessor {
             return false;
         }
 
+        int hourOffset;
         try {
             hourOffset = Integer.parseInt(args[3]);
         } catch (NumberFormatException e) {
-            //TODO error handling
-            System.err.println("Invalid time offset");
-            e.printStackTrace();
+            System.err.println("Invalid time offset, check your parameters.");
+            return false;
         }
 
-        System.out.println("Param check OK");
-
-        initialized = true;
+        System.out.println("Required param check done, all OK.");
 
         // Parse optional arguments
         String[] optArgs = new String[args.length - 4];
         System.arraycopy(args, 4, optArgs, 0, args.length - 4);
         parse(optArgs);
 
+        System.out.println("Optional param check done.");
 
         // SET UP TIMEZONE
         String timeZoneString = "GMT" + (hourOffset < 0 ? "" : "+") + hourOffset;
@@ -126,8 +121,7 @@ public class ParamProcessor {
         try {
             timeMS = dateFormat.parse(arg).getTime();
         } catch (ParseException e) {
-            // TODO error handling
-            e.printStackTrace();
+            System.err.println("Time filter can't be added, check your parameters!");
             return;
         }
 
@@ -147,7 +141,7 @@ public class ParamProcessor {
             lon = Double.parseDouble(arg2);
             rad = Double.parseDouble(arg3);
         } catch (NumberFormatException e) {
-            System.out.println("Location filter can't be added, check your parameters!");
+            System.err.println("Location filter can't be added, check your parameters!");
             return;
         }
 
@@ -159,7 +153,7 @@ public class ParamProcessor {
         try {
             accuracy = Integer.parseInt(arg);
         } catch (NumberFormatException e) {
-            System.out.println("Accuracy filter can't be added, check your parameters!");
+            System.err.println("Accuracy filter can't be added, check your parameters!");
             return;
         }
 
@@ -175,12 +169,7 @@ public class ParamProcessor {
         }
     }
 
-    public static RecordManager getRecordManager() {
-        if (!initialized) {
-            System.err.println("ParamProcessor has not been initialized yet.");
-            return null;
-        }
-
+    static RecordManager getRecordManager() {
         if (filter == null) {
             return new RecordManager(locationData);
         }
@@ -188,12 +177,7 @@ public class ParamProcessor {
         return new RecordManager(locationData, filter);
     }
 
-    public static PhotoManager getPhotoManager() {
-        if (!initialized) {
-            System.err.println("ParamProcessor has not been initialized yet.");
-            return null;
-        }
-
+    static PhotoManager getPhotoManager() {
         return new PhotoManager(photoInDirectory, photoOutDirectory, timeZone);
     }
 }

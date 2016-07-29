@@ -14,6 +14,9 @@ import java.util.Scanner;
  */
 public class Main {
 
+    /**
+     * Displays the contents of the help file on the error output
+     */
     private static void displayHelp() {
         File help = new File("res/help.txt");
 
@@ -27,8 +30,12 @@ public class Main {
         }
     }
 
+    /**
+     * Creates components, runs worker threads
+     * @param args arguments from the command line
+     */
     public static void main(String[] args) {
-        long time = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
         boolean success = ParamProcessor.check(args);
         if (!success) {
@@ -66,7 +73,7 @@ public class Main {
         lf.printStats();
 
         System.out.println();
-        System.out.println("Job complete, time taken : " + (System.currentTimeMillis() - time) + "ms.");
+        System.out.println("Job complete, time taken : " + (System.currentTimeMillis() - startTime) + "ms.");
     }
 
 }

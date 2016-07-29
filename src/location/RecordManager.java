@@ -52,7 +52,7 @@ public class RecordManager {
      */
     private void loadRecords(File locationFile) {
         if (!locationFile.exists() || !locationFile.isFile()) {
-            //TODO error handling
+            System.err.println("No records loaded, check your records file.");
         }
 
         try {
