@@ -10,28 +10,16 @@ import java.util.List;
 /**
  * Created by zsmb on 2016-07-23.
  */
-public class SimpleFinder implements LocationFinder {
-
-    private List<Long> diffs = new ArrayList<>();
-    private RecordManager rm;
-
-    public SimpleFinder(RecordManager rm) {
-        this.rm = rm;
-    }
+public class SimpleFinder extends LocationFinder {
 
     /**
-     * Returns the difference between two long integers
-     *
-     * @param a first number
-     * @param b second number
-     * @return the difference (its absolute value)
+     * A list of the millisecond differences that have been used
+     * as best results for a query
      */
-    private long getDiff(long a, long b) {
-        if (a > b) {
-            return getDiff(b, a);
-        }
+    private List<Long> diffs = new ArrayList<>();
 
-        return b - a;
+    public SimpleFinder(RecordManager rm) {
+        super(rm);
     }
 
     /**
@@ -49,11 +37,11 @@ public class SimpleFinder implements LocationFinder {
         }
 
         LocationRecord bestMatch = records.get(0);
-        long bestDiff = getDiff(bestMatch.getTimeStampMS(), timeMS);
+        long bestDiff = Math.abs(bestMatch.getTimeStampMS() - timeMS);
 
         for (int i = 1; i < records.size(); i++) {
             LocationRecord lr = records.get(i);
-            long diff = getDiff(lr.getTimeStampMS(), timeMS);
+            long diff = Math.abs(lr.getTimeStampMS() - timeMS);
 
             if (diff < bestDiff) {
                 bestMatch = lr;
@@ -78,12 +66,6 @@ public class SimpleFinder implements LocationFinder {
             return;
         }
 
-        /*System.out.println("---");
-        System.out.println("Diffs");
-        for (Long l : diffs) {
-            System.out.println(l);
-        }*/
-        System.out.println("---");
         System.out.println("Average diff: " + getAverage(diffs));
     }
 
