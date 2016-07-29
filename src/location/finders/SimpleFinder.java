@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zsmb on 2016-07-23.
+ * The obvious implementation of the superclass, finds the location
+ * record that's closest in time to the given timestamps
  */
 public class SimpleFinder extends LocationFinder {
 
@@ -32,8 +33,9 @@ public class SimpleFinder extends LocationFinder {
     public double[] getLocation(long timeMS) {
         List<LocationRecord> records = rm.getClosestRecords(timeMS);
         if (records.isEmpty()) {
-            //TODO error handling
-            System.err.println("ERROR NO RECORDS RETURNED FROM GETCLOSESTRECORDS");
+            System.err.println("There were no closest records found for a given timestamp.");
+            System.err.println("Check your filters and your JSON file.");
+            return null;
         }
 
         LocationRecord bestMatch = records.get(0);
@@ -57,6 +59,10 @@ public class SimpleFinder extends LocationFinder {
         return new double[]{bestMatch.getLatitude(), bestMatch.getLongitude()};
     }
 
+    /**
+     * Prints the average difference in timestamps between the given time and
+     * the timestamp of the found location record for the processed queries
+     */
     @Override
     public void printStats() {
         System.out.println("SimpleFinder stats");
@@ -69,6 +75,11 @@ public class SimpleFinder extends LocationFinder {
         System.out.println("Average diff: " + getAverage(diffs));
     }
 
+    /**
+     * Returns the average of a list of long values, in an overflow safe way
+     * @param list the list to use
+     * @return the average of the stored values
+     */
     private String getAverage(List<Long> list) {
         BigInteger sum = BigInteger.ZERO;
 

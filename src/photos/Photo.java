@@ -15,7 +15,7 @@ import java.io.*;
 import java.text.ParseException;
 
 /**
- * Created by zsmb on 2016-07-25.
+ * Represents a single picture that has to be processed
  */
 public class Photo {
 
@@ -28,10 +28,12 @@ public class Photo {
         this.outputDir = outputDir;
     }
 
-
+    /**
+     * Gets the timestamp for when the photo was taken
+     * @return timestamp in milliseconds, UTC time
+     */
     public long getTimestampMS() {
-        // Because Sanselan is grumpy when you read metadata from multiple threads
-        // at the same time
+        // Because Sanselan is grumpy when you read metadata on multiple threads at the same time
         synchronized (syncObject) {
             try {
                 // Read data from image
@@ -54,6 +56,11 @@ public class Photo {
         }
     }
 
+    /**
+     * Writes the photo to the output directory, with the given GPS data added
+     * @param latitude the latitude value to write
+     * @param longitude the longitude value to write
+     */
     public void writeExifLocation(final double latitude, final double longitude) {
         OutputStream os = null;
         TiffOutputSet outputSet = null;
@@ -69,6 +76,11 @@ public class Photo {
                 if (exif != null) {
                     outputSet = exif.getOutputSet();
                 }
+            }
+
+            if(outputSet == null) {
+                System.err.println("EXIF data reading error, can't write photo, skipping it.");
+                return;
             }
 
             // Change data

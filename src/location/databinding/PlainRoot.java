@@ -3,7 +3,8 @@ package location.databinding;
 import java.util.List;
 
 /**
- * Created by zsmb on 2016-07-24.
+ * POJO for parsing the location records from the Google-generated JSON
+ * This is the root element of said JSON file
  */
 public class PlainRoot {
     public List<PlainRecordObject> locations;

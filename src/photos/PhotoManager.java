@@ -14,13 +14,17 @@ public class PhotoManager {
 
     static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
     private static final String[] imageFormats = {"jpg", "jpeg"};
-    private List<Photo> photos;
+    private final List<Photo> photos;
     private int currentIndex = -1;
 
-    public PhotoManager(File photoDir, File outputDirectory, TimeZone timeZone) {
-        // TODO calculate offset by getting currentTimeMS and something else (?)
-
-        File[] files = photoDir.listFiles(new FileFilter() {
+    /**
+     * PhotoManager ctor
+     * @param inputDirectory the directory containing the photos to be read
+     * @param outputDirectory the directory to write the processed photos to
+     * @param timeZone the timezone that the photos were taken in
+     */
+    public PhotoManager(File inputDirectory, File outputDirectory, TimeZone timeZone) {
+        File[] files = inputDirectory.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
                 if (!pathname.isFile()) {
@@ -39,21 +43,29 @@ public class PhotoManager {
             }
         });
 
-        //photos = Arrays.asList(files);
-
         photos = new ArrayList<>();
-        for (int i = 0; i < files.length; i++) {
-            photos.add(new Photo(files[i], outputDirectory));
+
+        for (File file : files) {
+            photos.add(new Photo(file, outputDirectory));
         }
 
         dateFormat.setTimeZone(timeZone);
     }
 
+    /**
+     * Gets the extension of a file, lowercase
+     * @param file the given file
+     * @return the extension in lowercase, without a '.'
+     */
     private String getExtension(File file) {
         String name = file.getName();
         return name.substring(name.lastIndexOf('.') + 1).toLowerCase();
     }
 
+    /**
+     * Fetches the next photo to process
+     * @return the next photo, or null, if there are none left.
+     */
     public Photo getNext() {
         synchronized (photos) {
             currentIndex++;

@@ -59,7 +59,7 @@ public class ParamProcessor {
             return photoOutDirectory.mkdirs();
         }
         if (!photoOutDirectory.isDirectory()) {
-            System.err.println("Output directory is invalid!");
+            System.err.println("Photo output directory is invalid!");
             return false;
         }
 
@@ -75,16 +75,14 @@ public class ParamProcessor {
 
         initialized = true;
 
+        // Parse optional arguments
         String[] optArgs = new String[args.length - 4];
-        for (int i = 0; i < args.length - 4; i++) {
-            optArgs[i] = args[i + 4];
-        }
+        System.arraycopy(args, 4, optArgs, 0, args.length - 4);
         parse(optArgs);
 
 
         // SET UP TIMEZONE
         String timeZoneString = "GMT" + (hourOffset < 0 ? "" : "+") + hourOffset;
-        System.out.println(timeZoneString);
         timeZone = TimeZone.getTimeZone(timeZoneString);
         dateFormat.setTimeZone(timeZone);
 
@@ -116,8 +114,7 @@ public class ParamProcessor {
                     i += 3;
                     break;
                 default:
-                    //TODO error handling
-                    System.err.println("Unknown switch read, throwing it away...");
+                    System.err.println("Unknown optional parameter read, ignoring it...");
             }
 
             i++;
@@ -150,8 +147,7 @@ public class ParamProcessor {
             lon = Double.parseDouble(arg2);
             rad = Double.parseDouble(arg3);
         } catch (NumberFormatException e) {
-            //TODO error handling
-            e.printStackTrace();
+            System.out.println("Location filter can't be added, check your parameters!");
             return;
         }
 
@@ -163,8 +159,7 @@ public class ParamProcessor {
         try {
             accuracy = Integer.parseInt(arg);
         } catch (NumberFormatException e) {
-            //TODO error handling
-            e.printStackTrace();
+            System.out.println("Accuracy filter can't be added, check your parameters!");
             return;
         }
 
@@ -182,8 +177,8 @@ public class ParamProcessor {
 
     public static RecordManager getRecordManager() {
         if (!initialized) {
-            System.err.println("CANT GET RECORD MANAGER YET");
-            //TODO error handling
+            System.err.println("ParamProcessor has not been initialized yet.");
+            return null;
         }
 
         if (filter == null) {
@@ -193,11 +188,12 @@ public class ParamProcessor {
         return new RecordManager(locationData, filter);
     }
 
-    public static PhotoManager getPhotomanager() {
+    public static PhotoManager getPhotoManager() {
         if (!initialized) {
-            System.err.println("CANT GET PHOTO MANAGER YET");
-            //TODO error handling
+            System.err.println("ParamProcessor has not been initialized yet.");
+            return null;
         }
+
         return new PhotoManager(photoInDirectory, photoOutDirectory, timeZone);
     }
 }

@@ -3,7 +3,8 @@ package location;
 import location.databinding.PlainRecordObject;
 
 /**
- * Created by zsmb on 2016-07-18.
+ * A comparable, and therefore sortable location record class
+ * Sorting is based purely on the timestamps of the records
  */
 public class LocationRecord implements Comparable<LocationRecord> {
 
@@ -14,8 +15,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
 
     /**
      * Ctor only for temporary records, does not store actual data!
-     *
-     * @param timeMS
+     * @param timeMS the timestamp to store, in milliseconds
      */
     public LocationRecord(long timeMS) {
         this.timeStampMS = timeMS;
@@ -24,6 +24,10 @@ public class LocationRecord implements Comparable<LocationRecord> {
         this.accuracy = 0;
     }
 
+    /**
+     * Ctor from a POJO location record
+     * @param po the record to get the data from
+     */
     public LocationRecord(PlainRecordObject po) {
         this.timeStampMS = po.timestampMs;
         this.latitude = convertIntLatLong(po.latitudeE7);
@@ -31,6 +35,11 @@ public class LocationRecord implements Comparable<LocationRecord> {
         this.accuracy = po.accuracy;
     }
 
+    /**
+     * Helper function to turn integer formatted latlong coordinates into doubles
+     * @param latlong the coordinate to convert
+     * @return the coordinate as a double value
+     */
     private double convertIntLatLong(int latlong) {
         return (double) latlong * 0.0000001;
     }
@@ -58,6 +67,10 @@ public class LocationRecord implements Comparable<LocationRecord> {
 
     @Override
     public boolean equals(Object obj) {
+        if(obj.getClass() != LocationRecord.class) {
+            return false;
+        }
+
         LocationRecord rec = (LocationRecord) obj;
         return timeStampMS == rec.timeStampMS;
     }

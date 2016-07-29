@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by zsmb on 2016-07-23.
+ * Reads location records from file, stores them, provides lookup access to get records
  */
 public class RecordManager {
 
@@ -22,6 +22,10 @@ public class RecordManager {
 
     private RecordFilter filter;
 
+    /**
+     * Ctor without a filter parameter, adds a filter that accepts any record
+     * @param locationFile the file to read records from
+     */
     public RecordManager(File locationFile) {
         this.filter = new RecordFilter() {
             @Override
@@ -32,11 +36,20 @@ public class RecordManager {
         loadRecords(locationFile);
     }
 
+    /**
+     * Ctor with a filter parameter
+     * @param locationFile the file to read records from
+     * @param filter the filter to use for the read records
+     */
     public RecordManager(File locationFile, RecordFilter filter) {
         this.filter = filter;
         loadRecords(locationFile);
     }
 
+    /**
+     * Loads the records from the given JSON file, applying the stored filter to them
+     * @param locationFile the file to read records from
+     */
     private void loadRecords(File locationFile) {
         if (!locationFile.exists() || !locationFile.isFile()) {
             //TODO error handling
@@ -47,10 +60,12 @@ public class RecordManager {
             // Ignore properties that are not in PlainRecordObject
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+            // Read records from JSON file
             PlainRoot pr = mapper.readValue(locationFile, PlainRoot.class);
 
             System.out.println("Read " + pr.locations.size() + " records from JSON file.");
 
+            // Create the complex LocationRecord objects
             for (PlainRecordObject po : pr.locations) {
                 LocationRecord lr = new LocationRecord(po);
                 // Apply filter(s) to read records
@@ -65,13 +80,19 @@ public class RecordManager {
             e.printStackTrace();
         }
 
-        // Necessary for the binary search used later
+        // Necessary for the binary search that's used later
         Collections.sort(records);
     }
 
+    /**
+     * Gets the (up to two) bounding records for a given timestamp
+     * @param timeMS the timestamp to look up
+     * @return a list of the found records (up to two)
+     */
     public List<LocationRecord> getClosestRecords(long timeMS) {
         List<LocationRecord> closest = new ArrayList<>();
 
+        // Find index where the timestamp would be inserted into the array of records
         int result = Arrays.binarySearch(records.toArray(), new LocationRecord(timeMS));
 
         // There was a single exact match
@@ -81,9 +102,14 @@ public class RecordManager {
         else {
             int index = -(result + 1);
 
+            // The index returned was not the first one
+            // This adds the record with the timestamp before the given one
             if (index > 0) {
                 closest.add(records.get(index - 1));
             }
+
+            // The index was still in the list
+            // This adds the record with the timestamp after the given one
             if (index < records.size()) {
                 closest.add(records.get(index));
             }

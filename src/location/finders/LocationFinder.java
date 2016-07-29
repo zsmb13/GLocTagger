@@ -3,7 +3,9 @@ package location.finders;
 import location.RecordManager;
 
 /**
- * Created by zsmb on 2016-07-23.
+ * Abstract base class of location finders
+ * These classes find you a GPS location based on a given timestamp,
+ * using a RecordManager to get access to location records
  */
 public abstract class LocationFinder {
 

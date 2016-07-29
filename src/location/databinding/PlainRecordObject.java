@@ -1,7 +1,9 @@
 package location.databinding;
 
 /**
- * Created by zsmb on 2016-07-23.
+ * POJO for parsing the location records from the Google-generated JSON
+ * Aforementioned JSON file contains mainly an array of these types of records
+ * Properties not used by this program are thrown away at parsing time
  */
 public class PlainRecordObject {
     public long timestampMs;

@@ -20,7 +20,7 @@ public class Main {
         try {
             Scanner scanner = new Scanner(help);
             while(scanner.hasNextLine()) {
-                System.out.println(scanner.nextLine());
+                System.err.println(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -37,10 +37,15 @@ public class Main {
         }
 
         RecordManager rm = ParamProcessor.getRecordManager();
-        PhotoManager pm = ParamProcessor.getPhotomanager();
+        PhotoManager pm = ParamProcessor.getPhotoManager();
         LocationFinder lf = new SimpleFinder(rm);
 
-        //int threadCount = Runtime.getRuntime().availableProcessors() - 1;
+        /*
+          Multithreaded use is implemented and working, but is not advised, since
+           the program is very heavily IO bound, it does much better on a single
+           thread, where the storage device can perform sequential writes
+         */
+        //int threadCount = Runtime.getRuntime().availableProcessors();
         int threadCount = 1;
 
         List<Thread> threads = new ArrayList<>();
@@ -61,8 +66,7 @@ public class Main {
         lf.printStats();
 
         System.out.println();
-        System.out.println("TIME TAKEN");
-        System.out.println(System.currentTimeMillis() - time);
+        System.out.println("Job complete, time taken : " + (System.currentTimeMillis() - time) + "ms.");
     }
 
 }
