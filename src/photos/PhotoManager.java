@@ -1,22 +1,9 @@
 package photos;
 
-import org.apache.sanselan.ImageReadException;
-import org.apache.sanselan.ImageWriteException;
-import org.apache.sanselan.Sanselan;
-import org.apache.sanselan.common.IImageMetadata;
-import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
-import org.apache.sanselan.formats.jpeg.exifRewrite.ExifRewriter;
-import org.apache.sanselan.formats.tiff.TiffField;
-import org.apache.sanselan.formats.tiff.TiffImageMetadata;
-import org.apache.sanselan.formats.tiff.constants.ExifTagConstants;
-import org.apache.sanselan.formats.tiff.constants.TagInfo;
-import org.apache.sanselan.formats.tiff.write.TiffOutputSet;
-
-import java.io.*;
-import java.text.ParseException;
+import java.io.File;
+import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -25,9 +12,8 @@ import java.util.TimeZone;
  */
 public class PhotoManager {
 
-    private static final String[] imageFormats = {"jpg", "jpeg"};
     static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-
+    private static final String[] imageFormats = {"jpg", "jpeg"};
     private List<Photo> photos;
     private int currentIndex = -1;
 
@@ -56,7 +42,7 @@ public class PhotoManager {
         //photos = Arrays.asList(files);
 
         photos = new ArrayList<>();
-        for(int i = 0; i < files.length; i++) {
+        for (int i = 0; i < files.length; i++) {
             photos.add(new Photo(files[i], outputDirectory));
         }
 
@@ -72,7 +58,7 @@ public class PhotoManager {
         synchronized (photos) {
             currentIndex++;
 
-            if(currentIndex < photos.size()) {
+            if (currentIndex < photos.size()) {
                 return photos.get(currentIndex);
             }
         }

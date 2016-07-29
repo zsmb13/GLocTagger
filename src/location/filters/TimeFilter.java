@@ -5,7 +5,7 @@ import location.LocationRecord;
 /**
  * Created by zsmb on 2016-07-25.
  */
-public class TimeFilter extends RecordFilter{
+public class TimeFilter extends RecordFilter {
 
     private long timeMS;
     private boolean acceptBefore;

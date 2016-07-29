@@ -1,5 +1,5 @@
-import location.finders.LocationFinder;
 import location.RecordManager;
+import location.finders.LocationFinder;
 import location.finders.SimpleFinder;
 import photos.PhotoManager;
 import photos.PhotoWorker;

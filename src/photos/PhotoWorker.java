@@ -18,7 +18,7 @@ public class PhotoWorker implements Runnable {
     @Override
     public void run() {
         Photo p;
-        while((p = pm.getNext()) != null) {
+        while ((p = pm.getNext()) != null) {
             long timeMS = p.getTimestampMS();
             double[] latlong = lf.getLocation(timeMS);
             //System.out.println("Writing " + latlong[0] + "," + latlong[1]);

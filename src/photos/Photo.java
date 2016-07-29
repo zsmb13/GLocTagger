@@ -19,10 +19,9 @@ import java.text.ParseException;
  */
 public class Photo {
 
+    private static final Object syncObject = new Object();
     private final File photoFile;
     private final File outputDir;
-
-    private static final Object syncObject = new Object();
 
     public Photo(File photoFile, File outputDir) {
         this.photoFile = photoFile;

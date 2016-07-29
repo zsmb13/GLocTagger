@@ -15,18 +15,15 @@ import java.util.TimeZone;
  */
 public class ParamProcessor {
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final long dayMS = 86400000;
     private static File locationData;
     private static File photoInDirectory;
     private static File photoOutDirectory;
     private static int hourOffset;
-
     private static boolean initialized = false;
-
     private static RecordFilter filter = null;
-
     private static TimeZone timeZone;
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static boolean check(String[] args) {
         // TODO add switches for all these options
@@ -76,7 +73,7 @@ public class ParamProcessor {
         initialized = true;
 
         String[] optArgs = new String[args.length - 4];
-        for(int i = 0; i < args.length - 4; i++) {
+        for (int i = 0; i < args.length - 4; i++) {
             optArgs[i] = args[i + 4];
         }
         parse(optArgs);
@@ -93,26 +90,26 @@ public class ParamProcessor {
 
     private static void parse(String[] optArgs) {
         int i = 0;
-        while(i < optArgs.length) {
-            switch(optArgs[i]) {
+        while (i < optArgs.length) {
+            switch (optArgs[i]) {
                 case "-from":
-                    parseTimeFilter(optArgs[i+1], false);
+                    parseTimeFilter(optArgs[i + 1], false);
                     i += 1;
                     break;
                 case "-until":
-                    parseTimeFilter(optArgs[i+1], true);
+                    parseTimeFilter(optArgs[i + 1], true);
                     i += 1;
                     break;
                 case "-accuracy":
-                    parseAccuracyFilter(optArgs[i+1]);
+                    parseAccuracyFilter(optArgs[i + 1]);
                     i += 1;
                     break;
                 case "-restrict":
-                    parseLocationFilter(optArgs[i+1], optArgs[i+2], optArgs[i+3], true);
+                    parseLocationFilter(optArgs[i + 1], optArgs[i + 2], optArgs[i + 3], true);
                     i += 3;
                     break;
                 case "-exclude":
-                    parseLocationFilter(optArgs[i+1], optArgs[i+2], optArgs[i+3], false);
+                    parseLocationFilter(optArgs[i + 1], optArgs[i + 2], optArgs[i + 3], false);
                     i += 3;
                     break;
                 default:
@@ -123,8 +120,6 @@ public class ParamProcessor {
             i++;
         }
     }
-
-    private static final long dayMS = 86400000;
 
     private static void parseTimeFilter(String arg, boolean acceptUntil) {
         long timeMS;
@@ -138,7 +133,7 @@ public class ParamProcessor {
 
         // Make "until" type filter inclusive, accepting until the end of
         // the given day instead of until the beginning
-        if(acceptUntil) {
+        if (acceptUntil) {
             timeMS += dayMS;
         }
 
@@ -151,7 +146,7 @@ public class ParamProcessor {
             lat = Double.parseDouble(arg1);
             lon = Double.parseDouble(arg2);
             rad = Double.parseDouble(arg3);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             //TODO error handling
             e.printStackTrace();
             return;
@@ -174,7 +169,7 @@ public class ParamProcessor {
     }
 
     private static void addFilter(RecordFilter rf) {
-        if(filter == null) {
+        if (filter == null) {
             filter = rf;
         }
         else {
@@ -188,7 +183,7 @@ public class ParamProcessor {
             //TODO error handling
         }
 
-        if(filter == null) {
+        if (filter == null) {
             return new RecordManager(locationData);
         }
 
