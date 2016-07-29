@@ -1,4 +1,7 @@
-package location;
+package location.finders;
+
+import location.LocationRecord;
+import location.RecordManager;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

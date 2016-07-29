@@ -1,7 +1,6 @@
 package photos;
 
-import location.LocationFinder;
-import location.LocationRecord;
+import location.finders.LocationFinder;
 
 /**
  * Created by zsmb on 2016-07-25.
