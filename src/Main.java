@@ -70,10 +70,11 @@ public class Main {
             e.printStackTrace();
         }
 
+        System.out.println();
         lf.printStats();
 
         System.out.println();
-        System.out.println("Job complete, time taken : " + (System.currentTimeMillis() - startTime) + "ms.");
+        System.out.println("Job complete, time taken : " + (System.currentTimeMillis() - startTime) + " ms");
     }
 
 }

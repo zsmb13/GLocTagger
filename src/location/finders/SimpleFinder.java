@@ -65,14 +65,12 @@ public class SimpleFinder extends LocationFinder {
      */
     @Override
     public void printStats() {
-        System.out.println("SimpleFinder stats");
-
         if (diffs.isEmpty()) {
-            System.out.println("No stats to display");
+            System.out.println("No accuracy stats to display");
             return;
         }
 
-        System.out.println("Average diff: " + getAverage(diffs));
+        System.out.println("Average time difference of matches: " + getAverage(diffs) + " ms");
     }
 
     /**

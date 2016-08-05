@@ -52,7 +52,7 @@ public class RecordManager {
      */
     private void loadRecords(File locationFile) {
         if (!locationFile.exists() || !locationFile.isFile()) {
-            System.err.println("No records loaded, check your records file.");
+            System.err.println("Records can't be located, check your records file.");
         }
 
         try {
@@ -63,7 +63,7 @@ public class RecordManager {
             // Read records from JSON file
             PlainRoot pr = mapper.readValue(locationFile, PlainRoot.class);
 
-            System.out.println("Read " + pr.locations.size() + " records from JSON file.");
+            System.out.println("Sucessfully read " + pr.locations.size() + " records from the JSON location data file.");
 
             // Create the complex LocationRecord objects
             for (PlainRecordObject po : pr.locations) {

@@ -67,14 +67,14 @@ public class ParamProcessor {
             return false;
         }
 
-        System.out.println("Required param check done, all OK.");
+        System.out.println("Required parameters checked, all OK.");
 
         // Parse optional arguments
         String[] optArgs = new String[args.length - 4];
         System.arraycopy(args, 4, optArgs, 0, args.length - 4);
         parse(optArgs);
 
-        System.out.println("Optional param check done.");
+        System.out.println("Optional parameters checked.");
 
         // SET UP TIMEZONE
         String timeZoneString = "GMT" + (hourOffset < 0 ? "" : "+") + hourOffset;
