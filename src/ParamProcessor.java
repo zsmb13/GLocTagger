@@ -109,7 +109,13 @@ public class ParamProcessor {
                     i += 3;
                     break;
                 default:
-                    System.err.println("Unknown optional parameter read, ignoring it...");
+                    if(optArgs[i].charAt(0) == '-') {
+                        System.err.println("Unknown optional switch read, ignoring it.");
+                    }
+                    else {
+                        System.err.println("Unknown optional param read, ignoring it.");
+                    }
+                    System.err.println("Read string was " + optArgs[i]);
             }
 
             i++;
