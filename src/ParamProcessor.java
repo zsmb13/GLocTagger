@@ -100,23 +100,28 @@ class ParamProcessor {
         int i = 0;
         while (i < optArgs.length) {
             switch (optArgs[i]) {
-                case "-from":
+                case "-f":
+                case "--from":
                     parseTimeFilter(optArgs[i + 1], false);
                     i += 1;
                     break;
-                case "-until":
+                case "-u":
+                case "--until":
                     parseTimeFilter(optArgs[i + 1], true);
                     i += 1;
                     break;
-                case "-accuracy":
+                case "-a":
+                case "--accuracy":
                     parseAccuracyFilter(optArgs[i + 1]);
                     i += 1;
                     break;
-                case "-restrict":
+                case "-r":
+                case "--restrict":
                     parseLocationFilter(optArgs[i + 1], optArgs[i + 2], optArgs[i + 3], true);
                     i += 3;
                     break;
-                case "-exclude":
+                case "-e":
+                case "--exclude":
                     parseLocationFilter(optArgs[i + 1], optArgs[i + 2], optArgs[i + 3], false);
                     i += 3;
                     break;
