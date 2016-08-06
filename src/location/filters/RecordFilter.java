@@ -7,7 +7,7 @@ import location.LocationRecord;
  */
 public abstract class RecordFilter {
 
-    protected RecordFilter nextFilter = null;
+    private RecordFilter nextFilter = null;
 
     public final boolean accept(LocationRecord record) {
         if (nextFilter == null) {

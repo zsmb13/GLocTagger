@@ -66,7 +66,7 @@ public class RecordManager {
             // Read records from JSON file
             PlainRoot pr = mapper.readValue(locationFile, PlainRoot.class);
 
-            System.out.println("Sucessfully read " + pr.locations.size() + " records from the JSON location data file.");
+            System.out.println("Successfully read " + pr.locations.size() + " records from the JSON location data file.");
 
             // Create the complex LocationRecord objects
             for (PlainRecordObject po : pr.locations) {

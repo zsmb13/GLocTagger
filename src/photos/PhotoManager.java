@@ -46,6 +46,11 @@ public class PhotoManager {
 
         photos = new ArrayList<>();
 
+        if(files == null) {
+            System.err.println("Reading files from input directory failed. Fatal error.");
+            System.exit(1);
+        }
+
         for (File file : files) {
             photos.add(new Photo(file, outputDirectory));
         }
@@ -69,7 +74,7 @@ public class PhotoManager {
      *
      * @return the next photo, or null, if there are none left.
      */
-    public Photo getNext() {
+    Photo getNext() {
         synchronized (photos) {
             currentIndex++;
 

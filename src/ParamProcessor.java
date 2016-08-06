@@ -14,7 +14,7 @@ import java.util.TimeZone;
  * Processes the command line arguments given to the program,
  * input/output files, filters, etc.
  */
-public class ParamProcessor {
+class ParamProcessor {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

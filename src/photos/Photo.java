@@ -17,13 +17,13 @@ import java.text.ParseException;
 /**
  * Represents a single picture that has to be processed
  */
-public class Photo {
+class Photo {
 
     private static final Object syncObject = new Object();
     private final File photoFile;
     private final File outputDir;
 
-    public Photo(File photoFile, File outputDir) {
+    Photo(File photoFile, File outputDir) {
         this.photoFile = photoFile;
         this.outputDir = outputDir;
     }
@@ -33,7 +33,7 @@ public class Photo {
      *
      * @return timestamp in milliseconds, UTC time
      */
-    public long getTimestampMS() {
+    long getTimestampMS() {
         // Because Sanselan is grumpy when you read metadata on multiple threads at the same time
         // ¯\_(ツ)_/¯
         synchronized (syncObject) {
@@ -64,8 +64,8 @@ public class Photo {
      * @param latitude  the latitude value to write
      * @param longitude the longitude value to write
      */
-    public void writeExifLocation(final double latitude, final double longitude) {
-        OutputStream os = null;
+    void writeExifLocation(final double latitude, final double longitude) {
+        OutputStream os;
         TiffOutputSet outputSet = null;
 
         try {

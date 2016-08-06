@@ -18,7 +18,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
      *
      * @param timeMS the timestamp to store, in milliseconds
      */
-    public LocationRecord(long timeMS) {
+    LocationRecord(long timeMS) {
         this.timeStampMS = timeMS;
         this.latitude = 0;
         this.longitude = 0;
@@ -30,7 +30,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
      *
      * @param po the record to get the data from
      */
-    public LocationRecord(PlainRecordObject po) {
+    LocationRecord(PlainRecordObject po) {
         this.timeStampMS = po.timestampMs;
         this.latitude = convertIntLatLong(po.latitudeE7);
         this.longitude = convertIntLatLong(po.longitudeE7);
