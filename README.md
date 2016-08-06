@@ -4,18 +4,16 @@ This program uses your location data from Google that you can download from Goog
 
 You can download your location history from Takeout [here](https://takeout.google.com/settings/takeout/custom/location_history).
 
----
-
-### Usage
+## Usage
 `java -jar GLocTagger.jar <location data json> <input directory> <output directory> <time offset from utc> [optional args]`
 
 The program creates a copy of your files in the output directory, it does not modify your original files.
 
 Time offset is an integer representing the timezone where the photos were taken as an offset from UTC time, as cameras do not consider timezones when writing date and time information. Format examples: `-3`, `5`, `+2`, `0`.
 
----
+## Optional arguments
 
-### Optional arguments
+### Miscellaneous filters
 
 ##### Accuracy filter `-a, --accuracy`
 
@@ -27,11 +25,7 @@ Example, only use records that are accurate within 40 meters:
 
 `-a 40`
 
----
-
-#### Location filters
-
----
+### Location filters
 
 ##### Restrict filter `-r, --restrict`
 
@@ -55,11 +49,7 @@ Example, ignore location records within 10 kilometers of The White House:
 
 `-e 38.897440 -77.036584 10`
 
----
-
-#### Time filters
-
----
+### Time filters
 
 Both filters use ISO-8601, the YYYY-MM-DD format.
 
@@ -79,9 +69,7 @@ Combined example, only look for records that happened from Christmas until the e
 
 `-f 2015-12-24 -u 2015-12-31`
 
----
-
-### Credits
+## Credits
 
 - JSON parsing is done with [Jackson](https://github.com/FasterXML/jackson)
 - JPG EXIF data handling uses the [Apache Commons Imaging](https://commons.apache.org/proper/commons-imaging/) library
