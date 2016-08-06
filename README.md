@@ -11,7 +11,9 @@ The program creates a copy of your files in the output directory, it does not mo
 
 Time offset is an integer representing the timezone where the photos were taken as an offset from UTC time, as cameras do not consider timezones when writing date and time information. Format examples: `-3`, `5`, `+2`, `0`.
 
-If you need no fancy options, I recommend using just the example accuracy filter below, since some location records in the Google-provided JSON file can have awful accuracy sometimes, it's just something that happens when your device has a bad GPS signal.
+If you need no fancy options, I recommend using just the example accuracy filter below, since some location records in the Google-provided JSON file can have awful accuracy sometimes, it's just something that happens when your device has a bad GPS signal. Example:
+
+`java -jar GLocTagger.jar location_data.json photos photos_tagged -5 -a 40`
 
 ## Optional arguments
 
