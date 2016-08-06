@@ -15,6 +15,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
 
     /**
      * Ctor only for temporary records, does not store actual data!
+     *
      * @param timeMS the timestamp to store, in milliseconds
      */
     public LocationRecord(long timeMS) {
@@ -26,6 +27,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
 
     /**
      * Ctor from a POJO location record
+     *
      * @param po the record to get the data from
      */
     public LocationRecord(PlainRecordObject po) {
@@ -37,6 +39,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
 
     /**
      * Helper function to turn integer formatted latlong coordinates into doubles
+     *
      * @param latlong the coordinate to convert
      * @return the coordinate as a double value
      */
@@ -67,7 +70,7 @@ public class LocationRecord implements Comparable<LocationRecord> {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj.getClass() != LocationRecord.class) {
+        if (obj.getClass() != LocationRecord.class) {
             return false;
         }
 

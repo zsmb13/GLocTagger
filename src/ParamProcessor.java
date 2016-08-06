@@ -11,7 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 /**
- * Created by zsmb on 2016-07-18.
+ * Processes the command line arguments given to the program,
+ * input/output files, filters, etc.
  */
 public class ParamProcessor {
 
@@ -27,7 +28,13 @@ public class ParamProcessor {
 
     private static TimeZone timeZone;
 
-    static boolean check(String[] args) {
+    /**
+     * Parses the command line arguments given to the program
+     *
+     * @param args the array of arguments
+     * @return true if they were valid, false if the program can not possibly continue
+     */
+    static boolean parse(String[] args) {
         if (args.length < 4) {
             System.err.println("Invalid arguments: at least one of the required arguments is missing.");
             return false;
@@ -63,7 +70,7 @@ public class ParamProcessor {
         try {
             hourOffset = Integer.parseInt(args[3]);
         } catch (NumberFormatException e) {
-            System.err.println("Invalid time offset, check your parameters.");
+            System.err.println("Invalid time offset, parse your parameters.");
             return false;
         }
 
@@ -72,7 +79,7 @@ public class ParamProcessor {
         // Parse optional arguments
         String[] optArgs = new String[args.length - 4];
         System.arraycopy(args, 4, optArgs, 0, args.length - 4);
-        parse(optArgs);
+        parseOptional(optArgs);
 
         System.out.println("Optional parameters checked.");
 
@@ -84,7 +91,12 @@ public class ParamProcessor {
         return true;
     }
 
-    private static void parse(String[] optArgs) {
+    /**
+     * Parses the given array for optional arguments
+     *
+     * @param optArgs an array containing the optional arguments from the command line
+     */
+    private static void parseOptional(String[] optArgs) {
         int i = 0;
         while (i < optArgs.length) {
             switch (optArgs[i]) {
@@ -109,7 +121,7 @@ public class ParamProcessor {
                     i += 3;
                     break;
                 default:
-                    if(optArgs[i].charAt(0) == '-') {
+                    if (optArgs[i].charAt(0) == '-') {
                         System.err.println("Unknown optional switch read, ignoring it.");
                     }
                     else {
@@ -122,12 +134,18 @@ public class ParamProcessor {
         }
     }
 
+    /**
+     * Creates a time filter and appends it to the current filters
+     *
+     * @param arg         the time parameter of the filter
+     * @param acceptUntil the before/after parameter of the filter
+     */
     private static void parseTimeFilter(String arg, boolean acceptUntil) {
         long timeMS;
         try {
             timeMS = dateFormat.parse(arg).getTime();
         } catch (ParseException e) {
-            System.err.println("Time filter can't be added, check your parameters!");
+            System.err.println("Time filter can't be added, parse your parameters!");
             return;
         }
 
@@ -140,6 +158,14 @@ public class ParamProcessor {
         addFilter(new TimeFilter(timeMS, acceptUntil));
     }
 
+    /**
+     * Creates a location filter and appends it to the current filters
+     *
+     * @param arg1         latitude as a double
+     * @param arg2         longitude as a double
+     * @param arg3         radius as a double
+     * @param acceptInside the inside/outside parameter of the filter
+     */
     private static void parseLocationFilter(String arg1, String arg2, String arg3, boolean acceptInside) {
         double lat, lon, rad;
         try {
@@ -147,25 +173,36 @@ public class ParamProcessor {
             lon = Double.parseDouble(arg2);
             rad = Double.parseDouble(arg3);
         } catch (NumberFormatException e) {
-            System.err.println("Location filter can't be added, check your parameters!");
+            System.err.println("Location filter can't be added, parse your parameters!");
             return;
         }
 
         addFilter(new LocationFilter(lat, lon, rad, acceptInside));
     }
 
+    /**
+     * Creates an accuracy filter and appends it to the current filters
+     *
+     * @param arg accuracy as an integer
+     */
     private static void parseAccuracyFilter(String arg) {
         int accuracy;
         try {
             accuracy = Integer.parseInt(arg);
         } catch (NumberFormatException e) {
-            System.err.println("Accuracy filter can't be added, check your parameters!");
+            System.err.println("Accuracy filter can't be added, parse your parameters!");
             return;
         }
 
         addFilter(new AccuracyFilter(accuracy));
     }
 
+    /**
+     * Appends the given filter to the current filters, or makes it the
+     * current filter, if there aren't any yet
+     *
+     * @param rf the filter to add
+     */
     private static void addFilter(RecordFilter rf) {
         if (filter == null) {
             filter = rf;
@@ -175,6 +212,11 @@ public class ParamProcessor {
         }
     }
 
+    /**
+     * Creates a RecordManager instance based on the parsed parameters
+     *
+     * @return the RecordManager instance
+     */
     static RecordManager getRecordManager() {
         if (filter == null) {
             return new RecordManager(locationData);
@@ -183,6 +225,11 @@ public class ParamProcessor {
         return new RecordManager(locationData, filter);
     }
 
+    /**
+     * Creates a PhotoManager instance based on the parsed parameters
+     *
+     * @return the PhotoManager instance
+     */
     static PhotoManager getPhotoManager() {
         return new PhotoManager(photoInDirectory, photoOutDirectory, timeZone);
     }

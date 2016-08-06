@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * Created by zsmb on 2016-07-18.
+ * Reads photos from a directory, stores them, provides threadsafe access to them for the workers
  */
 public class PhotoManager {
 
@@ -19,9 +19,10 @@ public class PhotoManager {
 
     /**
      * PhotoManager ctor
-     * @param inputDirectory the directory containing the photos to be read
+     *
+     * @param inputDirectory  the directory containing the photos to be read
      * @param outputDirectory the directory to write the processed photos to
-     * @param timeZone the timezone that the photos were taken in
+     * @param timeZone        the timezone that the photos were taken in
      */
     public PhotoManager(File inputDirectory, File outputDirectory, TimeZone timeZone) {
         File[] files = inputDirectory.listFiles(new FileFilter() {
@@ -54,6 +55,7 @@ public class PhotoManager {
 
     /**
      * Gets the extension of a file, lowercase
+     *
      * @param file the given file
      * @return the extension in lowercase, without a '.'
      */
@@ -64,6 +66,7 @@ public class PhotoManager {
 
     /**
      * Fetches the next photo to process
+     *
      * @return the next photo, or null, if there are none left.
      */
     public Photo getNext() {

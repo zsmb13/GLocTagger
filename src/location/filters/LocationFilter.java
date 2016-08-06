@@ -3,7 +3,7 @@ package location.filters;
 import location.LocationRecord;
 
 /**
- * Created by zsmb on 2016-07-24.
+ * Filters records that are inside or outside a given radius around a given point
  */
 public class LocationFilter extends RecordFilter {
 

@@ -3,7 +3,7 @@ package location.filters;
 import location.LocationRecord;
 
 /**
- * Created by zsmb on 2016-07-25.
+ * Filters records before or after a given timestamp
  */
 public class TimeFilter extends RecordFilter {
 

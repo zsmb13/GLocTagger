@@ -24,6 +24,7 @@ public class RecordManager {
 
     /**
      * Ctor without a filter parameter, adds a filter that accepts any record
+     *
      * @param locationFile the file to read records from
      */
     public RecordManager(File locationFile) {
@@ -38,8 +39,9 @@ public class RecordManager {
 
     /**
      * Ctor with a filter parameter
+     *
      * @param locationFile the file to read records from
-     * @param filter the filter to use for the read records
+     * @param filter       the filter to use for the read records
      */
     public RecordManager(File locationFile, RecordFilter filter) {
         this.filter = filter;
@@ -48,6 +50,7 @@ public class RecordManager {
 
     /**
      * Loads the records from the given JSON file, applying the stored filter to them
+     *
      * @param locationFile the file to read records from
      */
     private void loadRecords(File locationFile) {
@@ -86,6 +89,7 @@ public class RecordManager {
 
     /**
      * Gets the (up to two) bounding records for a given timestamp
+     *
      * @param timeMS the timestamp to look up
      * @return a list of the found records (up to two)
      */

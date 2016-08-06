@@ -34,7 +34,7 @@ public class SimpleFinder extends LocationFinder {
         List<LocationRecord> records = rm.getClosestRecords(timeMS);
         if (records.isEmpty()) {
             System.err.println("There were no closest records found for a given timestamp.");
-            System.err.println("Check your filters and your JSON file.");
+            System.err.println("Check your filters and your JSON data file.");
             return null;
         }
 
@@ -75,6 +75,7 @@ public class SimpleFinder extends LocationFinder {
 
     /**
      * Returns the average of a list of long values, in an overflow safe way
+     *
      * @param list the list to use
      * @return the average of the stored values
      */

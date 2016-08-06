@@ -4,13 +4,14 @@ import location.finders.SimpleFinder;
 import photos.PhotoManager;
 import photos.PhotoWorker;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by zsmb on 2016-07-17.
+ * Entry point of the program, creates instances, runs photo workers
  */
 public class Main {
 
@@ -22,7 +23,7 @@ public class Main {
 
         try {
             Scanner scanner = new Scanner(help);
-            while(scanner.hasNextLine()) {
+            while (scanner.hasNextLine()) {
                 System.err.println(scanner.nextLine());
             }
         } catch (FileNotFoundException e) {
@@ -32,12 +33,13 @@ public class Main {
 
     /**
      * Creates components, runs worker threads
+     *
      * @param args arguments from the command line
      */
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
 
-        boolean success = ParamProcessor.check(args);
+        boolean success = ParamProcessor.parse(args);
         if (!success) {
             displayHelp();
             return;

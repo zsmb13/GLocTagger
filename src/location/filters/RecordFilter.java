@@ -3,7 +3,7 @@ package location.filters;
 import location.LocationRecord;
 
 /**
- * Created by zsmb on 2016-07-23.
+ * Abstract base class for filters, responsible for appending filters
  */
 public abstract class RecordFilter {
 

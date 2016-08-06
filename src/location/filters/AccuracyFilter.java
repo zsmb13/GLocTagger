@@ -3,7 +3,7 @@ package location.filters;
 import location.LocationRecord;
 
 /**
- * Created by zsmb on 2016-07-23.
+ * Filter that accepts records that are of a given or higher accuracy
  */
 public class AccuracyFilter extends RecordFilter {
 

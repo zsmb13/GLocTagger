@@ -30,10 +30,12 @@ public class Photo {
 
     /**
      * Gets the timestamp for when the photo was taken
+     *
      * @return timestamp in milliseconds, UTC time
      */
     public long getTimestampMS() {
         // Because Sanselan is grumpy when you read metadata on multiple threads at the same time
+        // ¯\_(ツ)_/¯
         synchronized (syncObject) {
             try {
                 // Read data from image
@@ -43,8 +45,8 @@ public class Photo {
                 TiffField dateField = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_CREATE_DATE);
 
                 String dateString = dateField.getStringValue();
-                //System.out.println("Read photo w/ date " + dateString);
-                //System.out.println("Time is " + dateFormat.parse(dateString).getTime());
+                //System.out.println("Read photo with date " + dateString);
+                //System.out.println("Which corresponds to time " + dateFormat.parse(dateString).getTime());
 
                 return PhotoManager.dateFormat.parse(dateString).getTime();
 
@@ -58,7 +60,8 @@ public class Photo {
 
     /**
      * Writes the photo to the output directory, with the given GPS data added
-     * @param latitude the latitude value to write
+     *
+     * @param latitude  the latitude value to write
      * @param longitude the longitude value to write
      */
     public void writeExifLocation(final double latitude, final double longitude) {
@@ -78,8 +81,8 @@ public class Photo {
                 }
             }
 
-            if(outputSet == null) {
-                System.err.println("EXIF data reading error, can't write photo, skipping it.");
+            if (outputSet == null) {
+                System.err.println("EXIF data reading error, can't process photo, skipping it.");
                 return;
             }
 
