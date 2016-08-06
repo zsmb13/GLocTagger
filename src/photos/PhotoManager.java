@@ -46,7 +46,7 @@ public class PhotoManager {
 
         photos = new ArrayList<>();
 
-        if(files == null) {
+        if (files == null) {
             System.err.println("Reading files from input directory failed. Fatal error.");
             System.exit(1);
         }
