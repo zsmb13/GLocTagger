@@ -11,6 +11,8 @@ The program creates a copy of your files in the output directory, it does not mo
 
 Time offset is an integer representing the timezone where the photos were taken as an offset from UTC time, as cameras do not consider timezones when writing date and time information. Format examples: `-3`, `5`, `+2`, `0`.
 
+If you need no fancy options, I recommend using just the example accuracy filter below, since some location records in the Google-provided JSON file can have awful accuracy sometimes, it's just something that happens when your device has a bad GPS signal.
+
 ## Optional arguments
 
 ### Miscellaneous filters
@@ -21,7 +23,7 @@ Defines a maximum amount of uncertainty for location records to allow.
 
 `-a <max value in meters>`
 
-Example, only use records that are accurate within 40 meters:
+Example, only use records that are accurate within 40 meters (recommended for basically every use of the program):
 
 `-a 40`
 
