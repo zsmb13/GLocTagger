@@ -4,6 +4,8 @@ This program uses your location data from Google that you can download from Goog
 
 You can download your location history from Takeout [here](https://takeout.google.com/settings/takeout/custom/location_history).
 
+You can download the last compiled jar file from the [releases page](https://github.com/zsmb13/GLocTagger/releases).
+
 ## Usage
 `java -jar GLocTagger.jar <location data json> <input directory> <output directory> <time offset from utc> [optional args]`
 
