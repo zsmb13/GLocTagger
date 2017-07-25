@@ -1,4 +1,4 @@
-# GLocTagger
+# GLocTagger [![Build Status](https://travis-ci.org/zsmb13/GLocTagger.svg?branch=master)](https://travis-ci.org/zsmb13/GLocTagger)
 
 This program uses your location data from Google that you can download from Google Takeout to add GPS data to your JPG photos. This is useful if you're taking pictures with a camera that doesn't have GPS built in, but your location is recorded by your phone.
 
