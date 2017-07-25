@@ -1,5 +1,6 @@
 package location.finders;
 
+
 import location.LocationRecord;
 import location.RecordManager;
 

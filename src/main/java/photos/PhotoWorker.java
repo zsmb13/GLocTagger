@@ -1,5 +1,6 @@
 package photos;
 
+
 import location.finders.LocationFinder;
 
 /**

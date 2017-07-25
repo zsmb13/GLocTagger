@@ -1,5 +1,6 @@
 package location.filters;
 
+
 import location.LocationRecord;
 
 /**

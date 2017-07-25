@@ -1,3 +1,4 @@
+
 import location.RecordManager;
 import location.filters.AccuracyFilter;
 import location.filters.LocationFilter;
