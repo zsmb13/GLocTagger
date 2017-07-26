@@ -1,7 +1,9 @@
 package photos;
 
 
+import kotlin.Pair;
 import location.finders.LocationFinder;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Gets photos from the given PhotoManager, processes them, and writes
@@ -25,8 +27,12 @@ public class PhotoWorker implements Runnable {
         Photo p;
         while ((p = pm.getNext()) != null) {
             long timeMS = p.getTimestampMS();
-            double[] latlong = lf.getLocation(timeMS);
-            p.writeExifLocation(latlong[0], latlong[1]);
+            @Nullable Pair<Double, Double> latlong = lf.getLocation(timeMS);
+            if (latlong == null) {
+                // TODO handle gracefully (skip?)
+                throw new RuntimeException("No timestamp found for a photo");
+            }
+            p.writeExifLocation(latlong.getFirst(), latlong.getSecond());
         }
     }
 
