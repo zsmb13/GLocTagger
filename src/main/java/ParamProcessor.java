@@ -210,12 +210,7 @@ class ParamProcessor {
      * @param rf the filter to add
      */
     private static void addFilter(RecordFilter rf) {
-        if (filter == null) {
-            filter = rf;
-        }
-        else {
-            filter = filter.append(rf);
-        }
+        filter = rf.append(filter);
     }
 
     /**
