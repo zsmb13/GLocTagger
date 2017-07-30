@@ -1,9 +1,7 @@
-import location.RecordManager
 import location.filters.AccuracyFilter
 import location.filters.LocationFilter
 import location.filters.RecordFilter
 import location.filters.TimeFilter
-import photos.PhotoManager
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -19,13 +17,13 @@ class ParamProcessor {
 
     private val dayMS: Long = 86400000
 
-    private lateinit var locationData: File
-    private lateinit var photoInDirectory: File
-    private lateinit var photoOutDirectory: File
+    lateinit var locationData: File
+    lateinit var photoInDirectory: File
+    lateinit var photoOutDirectory: File
 
-    private var filter: RecordFilter? = null
+    lateinit var timeZone: TimeZone
 
-    private lateinit var timeZone: TimeZone
+    var filter: RecordFilter? = null
 
     /**
      * Parses the command line arguments given to the program
@@ -36,8 +34,7 @@ class ParamProcessor {
      */
     fun parse(args: Array<String>): Boolean {
         if (args.size < 4) {
-            System.err.println("Invalid arguments: at least one of the required arguments is missing.")
-            return false
+            throw RuntimeException("Invalid arguments: at least one of the required arguments is missing.")
         }
 
         locationData = File(args[0])
@@ -46,14 +43,12 @@ class ParamProcessor {
 
         // Location data file checks
         if (!locationData.exists()) {
-            System.err.println("Location data file does not exist!")
-            return false
+            throw RuntimeException("Location data file does not exist!")
         }
 
         // Photo directory checks
         if (!photoInDirectory.exists() || !photoInDirectory.isDirectory) {
-            System.err.println("Photo input directory does not exist!")
-            return false
+            throw RuntimeException("Photo input directory does not exist!")
         }
 
         // Output directory checks
@@ -61,32 +56,25 @@ class ParamProcessor {
             // Create directory if necessary
             val success = photoOutDirectory.mkdirs()
             if (!success) {
-                System.err.println("Couldn't create output directory!")
-                return false
+                throw RuntimeException("Couldn't create output directory!")
             }
         }
         if (!photoOutDirectory.isDirectory) {
-            System.err.println("Photo output directory is invalid!")
-            return false
+            throw RuntimeException("Photo output directory is invalid!")
         }
 
         val hourOffset: Int
         try {
-            hourOffset = Integer.parseInt(args[3])
+            hourOffset = args[3].toInt()
         } catch (e: NumberFormatException) {
-            System.err.println("Invalid time offset, parse your parameters.")
-            return false
+            throw RuntimeException("Invalid time offset, parse your parameters.")
         }
-
-        //println("Required parameters checked, all OK.")
 
         // Parse optional arguments
         val optArgs = args.sliceArray(4 until args.size)
         parseOptional(optArgs)
 
-        //println("Optional parameters checked.")
-
-        // SET UP TIMEZONE
+        // Set up timezone
         val timeZoneString = "GMT" + (if (hourOffset < 0) "" else "+") + hourOffset
         timeZone = TimeZone.getTimeZone(timeZoneString)
         dateFormat.timeZone = timeZone
@@ -125,12 +113,11 @@ class ParamProcessor {
                 }
                 else -> {
                     if (optArgs[i][0] == '-') {
-                        System.err.println("Unknown optional switch read, ignoring it.")
+                        throw RuntimeException("Unknown optional switch read, ignoring it.")
                     }
                     else {
-                        System.err.println("Unknown optional param read, ignoring it.")
+                        throw RuntimeException("Unknown optional param read, ignoring it.")
                     }
-                    System.err.println("Read string was " + optArgs[i])
                 }
             }
 
@@ -149,8 +136,7 @@ class ParamProcessor {
         try {
             timeMS = dateFormat.parse(arg).time
         } catch (e: ParseException) {
-            System.err.println("Time filter can't be added, parse your parameters!")
-            return
+            throw RuntimeException("Time filter can't be added, parse your parameters!")
         }
 
         // Make "until" type filter inclusive, accepting until the end of
@@ -171,19 +157,15 @@ class ParamProcessor {
      * @param acceptInside the inside/outside parameter of the filter
      */
     private fun parseLocationFilter(arg1: String, arg2: String, arg3: String, acceptInside: Boolean) {
-        val lat: Double
-        val lon: Double
-        val rad: Double
         try {
-            lat = java.lang.Double.parseDouble(arg1)
-            lon = java.lang.Double.parseDouble(arg2)
-            rad = java.lang.Double.parseDouble(arg3)
-        } catch (e: NumberFormatException) {
-            System.err.println("Location filter can't be added, parse your parameters!")
-            return
-        }
+            val lat = arg1.toDouble()
+            val lon = arg2.toDouble()
+            val rad = arg3.toDouble()
 
-        addFilter(LocationFilter(lat, lon, rad, acceptInside))
+            addFilter(LocationFilter(lat, lon, rad, acceptInside))
+        } catch (e: NumberFormatException) {
+            throw RuntimeException("Location filter can't be added, parse your parameters!")
+        }
     }
 
     /**
@@ -192,15 +174,11 @@ class ParamProcessor {
      * @param arg accuracy as an integer
      */
     private fun parseAccuracyFilter(arg: String) {
-        val accuracy: Int
         try {
-            accuracy = Integer.parseInt(arg)
+            addFilter(AccuracyFilter(arg.toInt()))
         } catch (e: NumberFormatException) {
-            System.err.println("Accuracy filter can't be added, parse your parameters!")
-            return
+            throw RuntimeException("Accuracy filter can't be added, parse your parameters!")
         }
-
-        addFilter(AccuracyFilter(accuracy))
     }
 
     /**
@@ -213,17 +191,4 @@ class ParamProcessor {
         filter = rf.append(filter)
     }
 
-    /**
-     * Creates a RecordManager instance based on the parsed parameters
-     *
-     * @return the RecordManager instance
-     */
-    fun getRecordManager() = RecordManager(locationData, filter)
-
-    /**
-     * Creates a PhotoManager instance based on the parsed parameters
-     *
-     * @return the PhotoManager instance
-     */
-    fun getPhotoManager() = PhotoManager(photoInDirectory, photoOutDirectory, timeZone)
 }

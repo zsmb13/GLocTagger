@@ -12,8 +12,7 @@ class LocationFilter(private val latitude: Double,
                      private val acceptInside: Boolean) : RecordFilter() {
 
     companion object {
-        // Earth's mean radius in kms
-        private const val earthRad = 6371.0088
+        private const val earthRad = 6371.0088 // Earth's mean radius in kms
     }
 
     override fun test(record: LocationRecord): Boolean {

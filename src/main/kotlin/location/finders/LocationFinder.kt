@@ -1,14 +1,14 @@
 package location.finders
 
 
-import location.RecordManager
+import location.RecordStore
 
 /**
  * Abstract base class of location finders
  * These classes find you a GPS location based on a given timestamp,
- * using a RecordManager to get access to location records
+ * using a RecordStore to get access to location records
  */
-abstract class LocationFinder internal constructor(protected val rm: RecordManager) {
+abstract class LocationFinder internal constructor(protected val recordStore: RecordStore) {
 
     /**
      * Returns the location (lat, long) for the specified time
@@ -19,4 +19,5 @@ abstract class LocationFinder internal constructor(protected val rm: RecordManag
      * Prints statistics about the matches found on the standard output
      */
     abstract fun printStats()
+
 }

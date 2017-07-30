@@ -1,14 +1,14 @@
 package location.finders
 
 
-import location.RecordManager
+import location.RecordStore
 import java.util.*
 
 /**
  * The obvious implementation of the superclass, finds the location
  * record that's closest in time to the given timestamps
  */
-class SimpleFinder(rm: RecordManager) : LocationFinder(rm) {
+class SimpleFinder(recordStore: RecordStore) : LocationFinder(recordStore) {
 
     /**
      * A list of the millisecond differences that have been used
@@ -17,7 +17,7 @@ class SimpleFinder(rm: RecordManager) : LocationFinder(rm) {
     private val diffs = ArrayList<Long>()
 
     override fun getLocation(timeMS: Long): Pair<Double, Double>? {
-        val records = rm.getClosestRecords(timeMS)
+        val records = recordStore.getClosestRecords(timeMS)
 
         val bestMatch = records.minBy { Math.abs(it.timeStampMS - timeMS) } ?: return null
 
