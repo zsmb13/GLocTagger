@@ -37,7 +37,7 @@ class RecordManager @JvmOverloads constructor(locationFile: File, private val fi
         val root = mapper.readValue(locationFile, PlainRoot::class.java)
         val locations = root.locations ?: throw RuntimeException("No locations found in JSON file")
 
-        println("Successfully read " + locations.size + " records from the JSON location data file.")
+        //println("Successfully read " + locations.size + " records from the JSON location data file.")
 
         // Create filterable records
         val locationRecords = locations.map(LocationRecord.Companion::from)
@@ -49,7 +49,7 @@ class RecordManager @JvmOverloads constructor(locationFile: File, private val fi
             locationRecords.filterTo(records, filter::accept)
         }
 
-        println("Number of records after filtering: " + records.size)
+        //println("Number of records after filtering: " + records.size)
 
         // Necessary for the binary search that's used later
         records.sort()

@@ -78,13 +78,13 @@ class ParamProcessor {
             return false
         }
 
-        println("Required parameters checked, all OK.")
+        //println("Required parameters checked, all OK.")
 
         // Parse optional arguments
         val optArgs = args.sliceArray(4 until args.size)
         parseOptional(optArgs)
 
-        println("Optional parameters checked.")
+        //println("Optional parameters checked.")
 
         // SET UP TIMEZONE
         val timeZoneString = "GMT" + (if (hourOffset < 0) "" else "+") + hourOffset

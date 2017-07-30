@@ -63,8 +63,8 @@ fun main(args: Array<String>) {
         e.printStackTrace()
     }
 
-    lf.printStats()
+    //lf.printStats()
 
-    println("---")
-    println("Job complete, time taken: " + (System.currentTimeMillis() - startTime) + " ms")
+    //println("---")
+    //println("Job complete, time taken: " + (System.currentTimeMillis() - startTime) + " ms")
 }
