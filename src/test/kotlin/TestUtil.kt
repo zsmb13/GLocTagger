@@ -71,12 +71,12 @@ internal fun assertLatLon(outImg: File, expectedLat: Double, expectedLon: Double
     Assert.assertEquals(expectedLon, lon, 0.00001)
 }
 
-fun locationData(block: JsonRoot.() -> Unit) {
+internal fun locationData(block: JsonRoot.() -> Unit) {
     val root = JsonRoot().apply(block).getRoot()
     ObjectMapper().writeValue(File(JSON_FILE), root)
 }
 
-class JsonRoot {
+internal class JsonRoot {
 
     val records = mutableListOf<PlainRecordObject>()
 
